@@ -5,5 +5,6 @@ setup(name='kao_flask_sqlalchemy',
       description="",
       author='',
       author_email='',
-      packages=['kao_flask_sqlalchemy'],
+      packages=['kao_flask_sqlalchemy',
+                'kao_flask_sqlalchemy.crud'],
      )

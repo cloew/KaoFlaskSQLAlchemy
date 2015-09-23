@@ -1,4 +1,4 @@
-from kao_flask.ext.sqlalchemy.database import db
+from .database import db
 
 class SqlAlchemyExtension:
     """ Represetns an extension to setup the Server for SQLAlchemy integration """
