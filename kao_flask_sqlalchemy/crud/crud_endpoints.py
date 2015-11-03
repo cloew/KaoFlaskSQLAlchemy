@@ -24,3 +24,8 @@ class CrudEndpoints:
     def endpoints(self):
         """ Return the endpoints """
         return [self.listEndpoint, self.recordEndpoint]
+        
+    def register(self, app):
+        """ Register the underlying routes """
+        for endpoint in self.endpoints:
+            endpoint.register(app)
