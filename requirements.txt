@@ -1,1 +1,5 @@
 Flask-SQLAlchemy==2.3.2
+git+git://github.com/cloew/KaoDecorators.git
+git+git://github.com/cloew/KaoFn.git
+git+git://github.com/cloew/KaoFlask.git
+git+git://github.com/cloew/SmartDefaults.git
