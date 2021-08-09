@@ -71,7 +71,7 @@ class CrudEndpoints:
         
     def find_record_with_id(self, id, **kwargs):
         """ Return the query for the model with the given id, scoped by the route parameters """
-        return self.get_scoped_query(**kwargs).filter_by(id=id).first()
+        return self.get_scoped_query(**kwargs).filter_by(id=id).first_or_404()
         
     @property
     def endpoints(self):
