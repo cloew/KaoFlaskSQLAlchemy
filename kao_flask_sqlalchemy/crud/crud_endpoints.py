@@ -24,9 +24,8 @@ class CrudEndpoints:
 
     @with_json
     def list(self, *, json, **kwargs):
-        """ List the records for the model """        
-        query = self.modelCls.query.filter_by(**{self.routeParams[routeParam]:kwargs[routeParam] for routeParam in self.routeParams})
-        return {"records":self.toJson(query.all(), **kwargs)}
+        """ List the records for the model """
+        return {"records":self.toJson(self.get_scoped_query(**kwargs).all(), **kwargs)}
         
     @with_json
     def create(self, *, json, **kwargs):
@@ -43,12 +42,13 @@ class CrudEndpoints:
     @with_json
     def read(self, *, id, json, **kwargs):
         """ Read an entry for the model """
-        return {"record":self.toJson(self.modelCls.query.filter(self.modelCls.id==id).first(), **kwargs)}
+        record = self.find_record_with_id(id, **kwargs)
+        return {"record":self.toJson(record, **kwargs)}
         
     @with_json
     def update(self, *, id, json, **kwargs):
         """ Update an entry for the model """
-        record = self.modelCls.query.filter(self.modelCls.id==id).first()
+        record = self.find_record_with_id(id, **kwargs)
         recordValues = self.recordValueProvider.getRecordValues(json)
         for key in recordValues:
             setattr(record, key, recordValues[key])
@@ -60,10 +60,18 @@ class CrudEndpoints:
     @with_json
     def delete(self, *, id, json, **kwargs):
         """ Delete an entry for the model """
-        record = self.modelCls.query.filter(self.modelCls.id==id).first()
+        record = self.find_record_with_id(id, **kwargs)
         db.session.delete(record)
         db.session.commit()
         return {}
+        
+    def get_scoped_query(self, **kwargs):
+        """ Return the query for the model, scoped by the route parameters """
+        return self.modelCls.query.filter_by(**{self.routeParams[routeParam]:kwargs[routeParam] for routeParam in self.routeParams})
+        
+    def find_record_with_id(self, id, **kwargs):
+        """ Return the query for the model with the given id, scoped by the route parameters """
+        return self.get_scoped_query(**kwargs).filter_by(id=id).first()
         
     @property
     def endpoints(self):
