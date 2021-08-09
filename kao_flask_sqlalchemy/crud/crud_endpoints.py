@@ -25,7 +25,7 @@ class CrudEndpoints:
     @with_json
     def list(self, *, json, **kwargs):
         """ List the records for the model """
-        return {"records":self.toJson(self.get_scoped_query(**kwargs).all(), **kwargs)}
+        return self.toJson(self.get_scoped_query(**kwargs).all(), **kwargs)
         
     @with_json
     def create(self, *, json, **kwargs):
@@ -37,13 +37,13 @@ class CrudEndpoints:
         
         db.session.add(record)
         db.session.commit()
-        return {"record":self.toJson(record, **kwargs)}
+        return self.toJson(record, **kwargs)
         
     @with_json
     def read(self, *, id, json, **kwargs):
         """ Read an entry for the model """
         record = self.find_record_with_id(id, **kwargs)
-        return {"record":self.toJson(record, **kwargs)}
+        return self.toJson(record, **kwargs)
         
     @with_json
     def update(self, *, id, json, **kwargs):
@@ -55,7 +55,7 @@ class CrudEndpoints:
             
         db.session.add(record)
         db.session.commit()
-        return {"record":self.toJson(record, **kwargs)}
+        return self.toJson(record, **kwargs)
         
     @with_json
     def delete(self, *, id, json, **kwargs):
