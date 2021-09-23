@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='kao_flask_sqlalchemy',
-      version='0.2.0',
+      version='0.2.1',
       description="",
       author='',
       author_email='',
